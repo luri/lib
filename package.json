@@ -1,0 +1,22 @@
+{
+  "name": "luri",
+  "version": "1.0.0",
+  "description": "A little javascript UI building library made for fun and science.",
+  "main": "src/luri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manix/luri.git"
+  },
+  "author": "Manix <admin@manix.info>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/manix/luri/issues"
+  },
+  "homepage": "https://github.com/manix/luri#readme",
+  "devDependencies": {
+    
+  }
+}

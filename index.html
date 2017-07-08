@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>Chameleons</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+	  html, body { margin: 0; padding: 0; }
+	  .chameleons { display: flex; flex-direction: column; height: 100vh; }
+	  .chameleon { display: flex; align-items: center; justify-content: center; flex: 1;
+				   width: 100%; height: 50%; box-sizing: border-box; font-family: verdana; 
+				   margin: 0; transition: all 1s ease; padding: 0; }
+	</style>
+	<script src="src/luri.js"></script>
+  </head>
+  <body>
+	<script>
+
+      console.time('someFunction');
+      class Chameleon extends luri.Component {
+
+        constructor(bw) {
+          super();
+
+          this.bw = bw;
+
+          this.autoChange();
+        }
+
+        autoChange() {
+          try {
+            this.changeColor();
+          } catch (e) {
+
+          } finally {
+            setTimeout(this.autoChange.bind(this), Math.random() * 5000);
+          }
+        }
+
+        changeColor() {
+          if (this.ref) {
+            var color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+            this.ref.style.backgroundColor = color;
+            this.ref.style.color = this.invertColor(color, this.bw);
+          }
+        }
+
+        invertColor(hex, bw) {
+          if (hex.indexOf('#') === 0) {
+            hex = hex.slice(1);
+          }
+          // convert 3-digit hex to 6-digits.
+          if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+          }
+          if (hex.length !== 6) {
+            throw new Error('Invalid HEX color.');
+          }
+          var r = parseInt(hex.slice(0, 2), 16),
+              g = parseInt(hex.slice(2, 4), 16),
+              b = parseInt(hex.slice(4, 6), 16);
+          if (bw) {
+            // http://stackoverflow.com/a/3943023/112731
+            return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+                ? '#000000'
+                : '#FFFFFF';
+          }
+          // invert color components
+          r = (255 - r).toString(16);
+          g = (255 - g).toString(16);
+          b = (255 - b).toString(16);
+          // pad each with zeros and return
+          function padZero(str, len) {
+            len = len || 2;
+            var zeros = new Array(len).join('0');
+            return (zeros + str).slice(-len);
+          }
+
+          return "#" + padZero(r) + padZero(g) + padZero(b);
+        }
+
+        props() {
+          return {
+            class: "chameleon",
+            node: "h2",
+            html: "I'm a " + (this.bw ? "user friendly" : "wild") + " chameleon.",
+            onclick: this.changeColor.bind(this)
+          };
+        }
+      }
+
+      document.body.appendChild(luri.construct({
+        class: "chameleons",
+        html: [
+          new Chameleon(),
+          new Chameleon(true)
+        ]
+      }));
+
+	</script>
+  </body>
+</html>
