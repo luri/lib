@@ -79,6 +79,12 @@
         return luri.construct(this);
       }
 
+      cut(property) {
+        var value = this[property];
+        delete(this[property]);
+        return value;
+      }
+
       getComponentIndex() {
         return this._ci;
       }
