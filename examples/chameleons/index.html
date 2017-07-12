@@ -13,10 +13,10 @@ and open the template in the editor.
 	  html, body { margin: 0; padding: 0; }
 	  .chameleons { display: flex; flex-direction: column; height: 100vh; }
 	  .chameleon { display: flex; align-items: center; justify-content: center; flex: 1;
-				   width: 100%; height: 50%; box-sizing: border-box; font-family: verdana; 
+				   width: 100%; height: 50%; box-sizing: border-box; font-family: verdana;
 				   margin: 0; transition: all 1s ease; padding: 0; }
 	</style>
-	<script src="src/luri.js"></script>
+	<script src="../../src/luri.js"></script>
   </head>
   <body>
 	<script>
@@ -100,6 +100,18 @@ and open the template in the editor.
           new Chameleon(true)
         ]
       }));
+
+      var element = luri.construct({
+        html: [
+          luri.H1("It worked!"),
+          luri.BUTTON({
+            html: "Click me!",
+            onclick: event => alert("Woohoo!")
+          })
+        ]
+      });
+
+      document.body.appendChild(element);
 
 	</script>
   </body>

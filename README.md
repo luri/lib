@@ -23,4 +23,4 @@ Include it in your document and then
 
     document.body.appendChild(element);
 
-Check `index.html` to see a working example.
+Browse `./examples` for demos.
