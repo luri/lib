@@ -20,14 +20,14 @@ class Todo extends luri.Component {
     return {
       class: "todo-entry input-group",
       html: [
-        luri.INPUT({
+        INPUT({
           value: this.text,
           class: "form-control rounded-0",
           ref: e => this.text = e,
           onchange: luri.emit.bind(null, "trigger-save")
         }),
-        luri.BUTTON({
-          html: luri.I({ class: "fa fa-check" }),
+        BUTTON({
+          html: I({ class: "fa fa-check" }),
           class: "btn btn-outline-success rounded-0",
           onclick: luri.emit.bind(null, "remove-todo", this)
         })
@@ -56,7 +56,7 @@ class Container extends luri.Component {
 
   saveTodos() {
     var [todos] = luri.emit("save", []);
-    console.log("saving", todos);
+
     localStorage.setItem("todos", JSON.stringify(todos))
   }
 
@@ -70,46 +70,32 @@ class Container extends luri.Component {
   }
 }
 
-class Actions extends luri.Component {
-
-  constructor(container) {
-    super();
-
-    this.container = container;
-  }
-
-  props() {
-    var c = this.container.ref;
-
-    return {
-      class: "actions d-flex justify-content-end",
-      html: [
-        luri.BUTTON({
-          html: luri.I({ class: "fa fa-plus" }),
-          class: "btn btn-secondary rounded-0 px-5",
-          onclick: luri.emit.bind(null, "add-todo")
-        })
-      ]
-    };
-  }
-}
-
-var container = new Container,
-  actions = new Actions(container);
+var { H1, P, BUTTON, A, I, INPUT } = luri;
 
 document.body.appendChild(luri.construct({
   html: [
     {
       class: "jumbotron",
       html: [
-        luri.H1("TODOs"),
-        luri.P([
-          "An example app built using ", luri.A({ href: "https://github.com/manix/luri", html: "luri" }), "."
+        H1("TODOs"),
+        P([
+          "An example app built using ", A({ href: "https://github.com/manix/luri", html: "luri" }), "."
         ])
       ]
     }, {
       class: "container-fluid py-2",
-      html: [container, actions]
+      html: [
+        new Container(),
+        {
+          class: "actions d-flex justify-content-end",
+          html: [
+          BUTTON({
+              html: I({ class: "fa fa-plus" }),
+              class: "btn btn-secondary rounded-0 px-5",
+              onclick: luri.emit.bind(null, "add-todo")
+            })
+        ]
+      }]
     }
   ]
 }));
