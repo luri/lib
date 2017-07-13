@@ -1,0 +1,31 @@
+[
+  {
+    "desc": "Paycheck",
+    "amount": 5000,
+    "type": 0
+  }, {
+    "desc": "Burger",
+    "amount": 2.50,
+    "type": 1
+  }, {
+    "desc": "Sunglasses",
+    "amount": 55,
+    "type": 1
+  }, {
+    "desc": "Fuel",
+    "amount": 50,
+    "type": 1
+  }, {
+    "desc": "Commission",
+    "amount": 150,
+    "type": 0
+  }, {
+    "desc": "Cat food",
+    "amount": 15,
+    "type": 1
+  }, {
+    "desc": "Ring",
+    "amount": 1500,
+    "type": 1
+  }
+]

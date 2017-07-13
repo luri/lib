@@ -114,7 +114,7 @@ class RecordList extends luri.Component {
 
   props() {
     return TABLE({
-      class: "table table-bordered",
+      class: "table table-bordered text-left",
       html: [
         THEAD(TR([
           TH("#"),
@@ -213,9 +213,20 @@ class Editor extends luri.Component {
 
 
 document.body.appendChild(luri.construct({
-  class: "container-fluid",
+  class: "container-fluid text-center",
   html: [
-    H1({ class: "text-center m-5", html: "Simple Ledger" }),
+    H1({ class: "m-5 mb-2", html: "Simple Ledger" }),
+    BUTTON({
+      html: "Load dummy records",
+      class: "btn btn-secondary mb-5",
+      onclick: function() {
+        fetch("dummy.json").then(response => {
+          return response.json();
+        }).then(json => {
+          json.forEach(luri.emit.bind(null, "add-record"));
+        });
+      }
+    }),
     new RecordCreator,
     new RecordList
   ]
