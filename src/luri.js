@@ -13,7 +13,7 @@
       return function(input) {
         var props;
 
-        if (typeof input === "string") {
+        if (typeof input === "string" || typeof input === "number") {
           return document.createTextNode(input);
         } else if (Array.isArray(input)) {
           props = { html: input };
@@ -166,32 +166,47 @@
     };
   })();
 
-  new MutationObserver(function(mutations) {
-    var ml = mutations.length;
-    while (ml--) {
-      var mutation = mutations[ml];
-      var nodes = mutation.removedNodes.length;
-      while (nodes--) {
-        try {
-          mutation.removedNodes[nodes].luri.onUnmount();
-        } catch (e) {
-
-        }
+  (function() {
+    var run = function(element, event) {
+      if (element.luri) {
+        element.luri["on" + event]();
       }
-      var nodes = mutation.addedNodes.length;
-      while (nodes--) {
-        try {
-          mutation.addedNodes[nodes].luri.onMount();
-        } catch (e) {
 
+      if (element.children) {
+        var i = element.children.length;
+        while (i--) {
+          run(element.children[i], event);
         }
       }
     }
-  }).observe(document.documentElement, { childList: true, subtree: true });
+
+    new MutationObserver(function(mutations) {
+      var ml = mutations.length;
+      while (ml--) {
+        var mutation = mutations[ml];
+        var nodes = mutation.removedNodes.length;
+        while (nodes--) {
+          try {
+            run(mutation.removedNodes[nodes], "Unmount");
+          } catch (e) {
+
+          }
+        }
+        var nodes = mutation.addedNodes.length;
+        while (nodes--) {
+          try {
+            run(mutation.addedNodes[nodes], "Mount");
+          } catch (e) {
+
+          }
+        }
+      }
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  })();
 
   (function() {
     var shorthand = function(props) {
-      if (typeof props === "string" || Array.isArray(props)) {
+      if (!props || typeof props === "number" || typeof props === "string" || Array.isArray(props)) {
         props = { node: this, html: props };
       } else {
         props.node = this;
