@@ -24,6 +24,8 @@
           props = input;
         }
 
+        props = Object.assign({}, props);
+
         var element = document.createElement(props.node || "div");
         var html = props.html || [];
         var ref = props.ref;

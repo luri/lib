@@ -1,6 +1,6 @@
 {
   "name": "luri",
-  "version": "1.0.0b",
+  "version": "1.2.0",
   "description": "A little javascript UI building library made for fun and science.",
   "main": "src/luri.js",
   "scripts": {
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/manix/luri#readme",
   "devDependencies": {
-    
+
   }
 }
