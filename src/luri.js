@@ -74,6 +74,7 @@
       constructor() {
         this._ci = luri.ComponentIndex();
         this._li = {};
+        this._m = false;
         this.ref = null;
       }
 
@@ -100,7 +101,7 @@
       }
 
       on(event, listener) {
-        if (this.getEventListeners(event).length === 0) {
+        if (this._m && this.getEventListeners(event).length === 0) {
           luri.registerListener(event, this);
         }
 
@@ -120,12 +121,16 @@
       }
 
       onMount() {
+        this._m = true;
+
         for (var event in this._li) {
           luri.registerListener(event, this);
         }
       }
 
       onUnmount() {
+        this._m = false;
+
         for (var event in this._li) {
           luri.unregisterListener(event, this);
         }
