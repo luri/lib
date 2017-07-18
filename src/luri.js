@@ -18,6 +18,9 @@
         } else if (Array.isArray(input)) {
           props = { html: input };
         } else if (input instanceof this.Component) {
+          if (input.ref) {
+            return input.ref;
+          }
           props = input.props();
           props.ref = default_ref;
         } else {
@@ -121,6 +124,10 @@
       }
 
       onMount() {
+        if (this._m === true) {
+          return;
+        }
+
         this._m = true;
 
         for (var event in this._li) {
@@ -129,6 +136,10 @@
       }
 
       onUnmount() {
+        if (this._m === false) {
+          return;
+        }
+
         this._m = false;
 
         for (var event in this._li) {
@@ -213,7 +224,7 @@
 
   (function() {
     var shorthand = function(props) {
-      if (!props || typeof props === "number" || typeof props === "string" || Array.isArray(props)) {
+      if (!props || typeof props === "number" || typeof props === "string" || Array.isArray(props) || props.node) {
         props = { node: this, html: props };
       } else {
         props.node = this;
