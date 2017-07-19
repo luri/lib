@@ -85,6 +85,20 @@
         return luri.construct(this);
       }
 
+      reconstruct() {
+        if (!this.ref) {
+          throw "Can not reconstruct a component that has not been constructed yet.";
+        }
+
+        var element = this.construct();
+
+        if (this.ref.parentNode) {
+          this.ref.parentNode.replaceChild(element, this.ref);
+        }
+
+        this.ref = element;
+      }
+
       cut(property) {
         var value = this[property];
         delete(this[property]);
