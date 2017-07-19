@@ -90,10 +90,13 @@
           throw "Can not reconstruct a component that has not been constructed yet.";
         }
 
+        var old = this.ref;
+        //  construct() will return this.ref if it is defined, so assign null first
+        this.ref = null;
         var element = this.construct();
 
-        if (this.ref.parentNode) {
-          this.ref.parentNode.replaceChild(element, this.ref);
+        if (old.parentNode) {
+          old.parentNode.replaceChild(element, old);
         }
 
         this.ref = element;
