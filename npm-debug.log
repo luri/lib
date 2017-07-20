@@ -1,0 +1,108 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'E:\\Programs\\nodejs\\node.exe',
+1 verbose cli   'E:\\Programs\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@3.10.10
+3 info using node@v6.9.5
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'E:\\www\\own\\luri',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\Manix\AppData\Roaming\npm-cache\luri\2.0.0\package.tgz not in flight; packing
+9 verbose correctMkdir C:\Users\Manix\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+10 info lifecycle luri@2.0.0~prepublish: luri@2.0.0
+11 silly lifecycle luri@2.0.0~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ 'C:\\Users\\Manix\\AppData\\Roaming\\npm-cache\\luri\\2.0.0\\package.tgz',
+12 verbose tar pack   'E:\\www\\own\\luri' ]
+13 verbose tarball C:\Users\Manix\AppData\Roaming\npm-cache\luri\2.0.0\package.tgz
+14 verbose folder E:\www\own\luri
+15 verbose addLocalTarball adding from inside cache C:\Users\Manix\AppData\Roaming\npm-cache\luri\2.0.0\package.tgz
+16 verbose correctMkdir C:\Users\Manix\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+17 silly cache afterAdd luri@2.0.0
+18 verbose afterAdd C:\Users\Manix\AppData\Roaming\npm-cache\luri\2.0.0\package\package.json not in flight; writing
+19 verbose correctMkdir C:\Users\Manix\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+20 verbose afterAdd C:\Users\Manix\AppData\Roaming\npm-cache\luri\2.0.0\package\package.json written
+21 silly publish { name: 'luri',
+21 silly publish   version: '2.0.0',
+21 silly publish   description: 'A little javascript UI building library made for fun and science.',
+21 silly publish   main: 'src/luri.js',
+21 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+21 silly publish   repository: { type: 'git', url: 'git+https://github.com/manix/luri.git' },
+21 silly publish   author: { name: 'Manix', email: 'admin@manix.info' },
+21 silly publish   license: 'Apache-2.0',
+21 silly publish   bugs: { url: 'https://github.com/manix/luri/issues' },
+21 silly publish   homepage: 'https://github.com/manix/luri#readme',
+21 silly publish   devDependencies: {},
+21 silly publish   dependencies: {},
+21 silly publish   readme: '# luri\r\n\r\nA simple JavaScript library for creating HTML UI, inspired by ReactJS and created for fun, and science, of course.\r\n\r\n## How to use\r\n\r\n`npm install luri`\r\n\r\nInclude it in your document and then\r\n\r\n    var element = luri.construct({\r\n      html: [\r\n        {\r\n          node: "h1",\r\n          html: "It worked!"\r\n        }, {\r\n          node: "button",\r\n          html: "Click me!",\r\n          onclick: event => alert("Woohoo!")\r\n        }\r\n      ]\r\n    });\r\n\r\n    document.body.appendChild(element);\r\n\r\nBrowse `./examples` for demos.\r\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: '2099dfb21ff902fcebb8baf3c1a0df8c5b881f2d',
+21 silly publish   _id: 'luri@2.0.0',
+21 silly publish   _shasum: '8333a6dc7320c41c1c3072ae47a700b394ade0eb',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name luri
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'luri',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   escapedName: 'luri',
+26 silly mapToRegistry   name: 'luri',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/luri
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading C:\Users\Manix\AppData\Roaming\npm-cache\luri\2.0.0\package.tgz
+30 verbose request uri https://registry.npmjs.org/luri
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 12:49:20 AM
+33 verbose request using bearer token for auth
+34 verbose request id bad12f2d532ecd2e
+35 http request PUT https://registry.npmjs.org/luri
+36 http 403 https://registry.npmjs.org/luri
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '95',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Thu, 20 Jul 2017 21:49:22 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-hhn1544-HHN',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1500587361.846583,VS0,VE1298',
+37 verbose headers   vary: 'Accept-Encoding, Accept' }
+38 verbose request invalidating C:\Users\Manix\AppData\Roaming\npm-cache\registry.npmjs.org\luri on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: "You cannot publish over the previously published version 2.0.0." : luri
+40 verbose stack     at makeError (E:\Programs\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (E:\Programs\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:290:14)
+40 verbose stack     at Request._callback (E:\Programs\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
+40 verbose stack     at Request.self.callback (E:\Programs\nodejs\node_modules\npm\node_modules\request\request.js:187:22)
+40 verbose stack     at emitTwo (events.js:106:13)
+40 verbose stack     at Request.emit (events.js:191:7)
+40 verbose stack     at Request.<anonymous> (E:\Programs\nodejs\node_modules\npm\node_modules\request\request.js:1048:10)
+40 verbose stack     at emitOne (events.js:96:13)
+40 verbose stack     at Request.emit (events.js:188:7)
+40 verbose stack     at IncomingMessage.<anonymous> (E:\Programs\nodejs\node_modules\npm\node_modules\request\request.js:969:12)
+41 verbose statusCode 403
+42 verbose pkgid luri
+43 verbose cwd E:\www\own\luri
+44 error Windows_NT 6.1.7601
+45 error argv "E:\\Programs\\nodejs\\node.exe" "E:\\Programs\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+46 error node v6.9.5
+47 error npm  v3.10.10
+48 error code E403
+49 error "You cannot publish over the previously published version 2.0.0." : luri
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]

@@ -10,12 +10,6 @@ class Todo extends luri.Component {
     });
   }
 
-  onUnmount() {
-    super.onUnmount();
-
-    luri.emit("trigger-save");
-  }
-
   props() {
     return {
       class: "todo-entry input-group",
@@ -52,12 +46,13 @@ class Container extends luri.Component {
 
   removeTodo(component) {
     this.ref.removeChild(component.ref);
+    luri.emit("trigger-save");
   }
 
   saveTodos() {
     var [todos] = luri.emit("save", []);
 
-    localStorage.setItem("todos", JSON.stringify(todos))
+    localStorage.setItem("todos", JSON.stringify(todos.reverse()))
   }
 
   props() {

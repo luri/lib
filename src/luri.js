@@ -141,15 +141,21 @@
         return {};
       }
     },
-    class: "luri-" + Math.round(Math.random() * 10e9).toString(36),
+    class: "luri-" + Math.random().toString(36).substring(2, 6),
     emit: function(event, ...data) {
-      Array.from(document.getElementsByClassName(luri.class)).forEach(element => {
-        let component = element.luri;
+      return luri.dispatchTo(document.getElementsByClassName(luri.class), event, ...data);
+    },
+    dispatchTo(collection, event, ...data) {
+      var l = collection.length;
+      while (l--) {
+        let component = collection[l].luri;
 
         if (component) {
           component.getEventListeners(event).forEach(listener => listener.call(component, ...data));
         }
-      });
+      }
+
+      return data;
     }
   };
 

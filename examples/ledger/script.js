@@ -143,23 +143,6 @@ class Currency extends luri.Component {
     this.editable = editable;
   }
 
-  color() {
-    if (this.ref.innerHTML > 0) {
-      this.ref.classList.remove("text-danger");
-      this.ref.classList.add("text-success");
-    } else {
-      this.ref.classList.add("text-danger");
-      this.ref.classList.remove("text-success");
-    }
-  }
-
-  onMount() {
-    super.onMount();
-
-    this.color();
-    this.ref.innerHTML = (this.ref.innerHTML * 1).toFixed(2);
-  }
-
   edit() {
     if (this.luri.editable) {
       new Editor(this).replace();
@@ -168,7 +151,8 @@ class Currency extends luri.Component {
 
   props() {
     return SPAN({
-      html: this.cut("value"),
+      html: (this.value * 1).toFixed(2),
+      class: this.value > 0 ? "text-success" : "text-danger",
       onclick: this.edit
     });
   }
@@ -183,7 +167,15 @@ class Editor extends luri.Component {
   }
 
   save() {
-    this.luri.element.innerHTML = this.value;
+    let component = this.luri.element.luri;
+
+    if (component) {
+      component.value = this.value;
+      component.reconstruct();
+      this.luri.element = component.ref;
+    } else {
+      this.luri.element.innerHTML = this.value;
+    }
 
     this.parentNode.replaceChild(this.luri.element, this);
 
