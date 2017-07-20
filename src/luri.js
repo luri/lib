@@ -5,10 +5,6 @@
   var luri = {
     construct: (function() {
       var special_props = ["node", "html", "ref"];
-      var default_ref = function(e) {
-        this.ref = e;
-        e.luri = this;
-      };
 
       return function(input) {
         var props;
@@ -22,7 +18,7 @@
             return input.ref;
           }
           props = input.props();
-          props.ref = default_ref;
+          props.ref = luri.Component.prototype.bind;
         } else {
           props = input;
         }
@@ -77,8 +73,13 @@
       constructor() {
         this._ci = luri.ComponentIndex();
         this._li = {};
-        this._m = false;
         this.ref = null;
+      }
+
+      bind(element) {
+        this.ref = element;
+        element.luri = this
+        element.classList.add(luri.class);
       }
 
       construct() {
@@ -91,15 +92,15 @@
         }
 
         var old = this.ref;
-        //  construct() will return this.ref if it is defined, so assign null first
+
+        // construct() will return this.ref if it is defined, so assign null first
         this.ref = null;
-        var element = this.construct();
+
+        this.bind(this.construct());
 
         if (old.parentNode) {
-          old.parentNode.replaceChild(element, old);
+          old.parentNode.replaceChild(this.ref, old);
         }
-
-        this.ref = element;
       }
 
       cut(property) {
@@ -121,10 +122,6 @@
       }
 
       on(event, listener) {
-        if (this._m && this.getEventListeners(event).length === 0) {
-          luri.registerListener(event, this);
-        }
-
         this.getEventListeners(event).push(listener);
       }
 
@@ -134,110 +131,27 @@
 
       removeEventListener(event, listener) {
         this._li[event] = this.getEventListeners(event).filter(l => l !== listener);
-
-        if (this.getEventListeners(event).length === 0) {
-          luri.unregisterListener(event, this);
-        }
       }
 
-      onMount() {
-        if (this._m === true) {
-          return;
-        }
-
-        this._m = true;
-
-        for (var event in this._li) {
-          luri.registerListener(event, this);
-        }
-      }
-
-      onUnmount() {
-        if (this._m === false) {
-          return;
-        }
-
-        this._m = false;
-
-        for (var event in this._li) {
-          luri.unregisterListener(event, this);
-        }
+      isMounted() {
+        return document.documentElement.contains(this.ref);
       }
 
       props() {
         return {};
       }
+    },
+    class: "luri-" + Math.round(Math.random() * 10e9).toString(36),
+    emit: function(event, ...data) {
+      Array.from(document.getElementsByClassName(luri.class)).forEach(element => {
+        let component = element.luri;
+
+        if (component) {
+          component.getEventListeners(event).forEach(listener => listener.call(component, ...data));
+        }
+      });
     }
   };
-
-  (function() {
-    var listeners = {};
-
-    function getListeners(event) {
-      if (!listeners[event]) {
-        listeners[event] = {};
-      }
-
-      return listeners[event];
-    };
-
-    luri.registerListener = function(event, component) {
-      getListeners(event)[component.getComponentIndex()] = component;
-    };
-
-    luri.unregisterListener = function(event, component) {
-      delete(getListeners(event)[component.getComponentIndex()]);
-    };
-
-    luri.emit = function(event, ...data) {
-
-      var components = getListeners(event);
-
-      for (var i in components) {
-        components[i].getEventListeners(event).forEach(listener => listener.call(components[i], ...data));
-      }
-
-      return data;
-    };
-  })();
-
-  (function() {
-    var run = function(element, event) {
-      if (element.luri) {
-        element.luri["on" + event]();
-      }
-
-      if (element.children) {
-        var i = element.children.length;
-        while (i--) {
-          run(element.children[i], event);
-        }
-      }
-    }
-
-    new MutationObserver(function(mutations) {
-      var ml = mutations.length;
-      while (ml--) {
-        var mutation = mutations[ml];
-        var nodes = mutation.removedNodes.length;
-        while (nodes--) {
-          try {
-            run(mutation.removedNodes[nodes], "Unmount");
-          } catch (e) {
-
-          }
-        }
-        var nodes = mutation.addedNodes.length;
-        while (nodes--) {
-          try {
-            run(mutation.addedNodes[nodes], "Mount");
-          } catch (e) {
-
-          }
-        }
-      }
-    }).observe(document.documentElement, { childList: true, subtree: true });
-  })();
 
   (function() {
     var shorthand = function(props) {
