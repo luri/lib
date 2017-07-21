@@ -94,7 +94,7 @@
           old.parentNode.replaceChild(this.ref, old);
         }
 
-        return this.ref;
+        return old;
       }
 
       cut(property) {
