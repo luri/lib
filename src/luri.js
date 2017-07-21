@@ -61,17 +61,9 @@
         return element;
       }
     })(),
-    ComponentIndex: (function() {
-      var componentIndex = 0;
-
-      return function() {
-        return ++componentIndex;
-      }
-    })(),
     Component: class Component {
 
       constructor() {
-        this._ci = luri.ComponentIndex();
         this._li = {};
         this.ref = null;
       }
@@ -101,16 +93,14 @@
         if (old.parentNode) {
           old.parentNode.replaceChild(this.ref, old);
         }
+
+        return this.ref;
       }
 
       cut(property) {
         var value = this[property];
         delete(this[property]);
         return value;
-      }
-
-      getComponentIndex() {
-        return this._ci;
       }
 
       getEventListeners(event) {
@@ -144,6 +134,9 @@
     class: "luri-" + Math.random().toString(36).substring(2, 6),
     emit: function(event, ...data) {
       return luri.dispatchTo(document.getElementsByClassName(luri.class), event, ...data);
+    },
+    dispatchToClass(className, event, ...data) {
+      return luri.dispatchTo(document.getElementsByClassName(className), event, ...data);
     },
     dispatchTo(collection, event, ...data) {
       var l = collection.length;

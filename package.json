@@ -4,7 +4,7 @@
   "description": "A little javascript UI building library made for fun and science.",
   "main": "src/luri.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,9 @@
     "url": "https://github.com/manix/luri/issues"
   },
   "homepage": "https://github.com/manix/luri#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "jsdom": "^11.1.0",
+    "mocha": "^3.4.2"
+  },
   "dependencies": {}
 }
