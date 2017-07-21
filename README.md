@@ -56,4 +56,4 @@ There are helper functions for every standard HTML tag that modify a definition,
     // Then
     document.body.appendChild(element);
 
-Browse `./examples` for demos.
+A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/1/). Browse `./examples` for more demos.
