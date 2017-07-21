@@ -2,8 +2,6 @@
 
 A simple JavaScript library for creating HTML UI, inspired by ReactJS and created for fun, and science, of course.
 
----
-
 [![travis](https://img.shields.io/travis/manix/luri.svg)](https://travis-ci.org/manix/luri)
 [![npm](https://img.shields.io/npm/v/luri.svg)](https://www.npmjs.com/package/luri)
 [![dep](https://img.shields.io/david/manix/luri.svg)](https://david-dm.org/manix/luri)
