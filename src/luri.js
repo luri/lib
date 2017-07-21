@@ -181,7 +181,7 @@
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = luri;
     }
-    exports.mymodule = luri;
+    exports.luri = luri;
   } else {
     root.luri = luri;
   }
