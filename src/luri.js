@@ -11,16 +11,14 @@
 
         if (typeof input === "string" || typeof input === "number") {
           return document.createTextNode(input);
-        } else if (Array.isArray(input)) {
-          props = { html: input };
         } else if (input instanceof this.Component) {
           if (input.ref) {
             return input.ref;
           }
-          props = input.props();
+          props = this.normalizeDefinition(input.props());
           props.ref = luri.Component.prototype.bind;
         } else {
-          props = input;
+          props = this.normalizeDefinition(input);
         }
 
         props = Object.assign({}, props);
@@ -61,6 +59,9 @@
         return element;
       }
     })(),
+    normalizeDefinition(def) {
+      return typeof def === "object" ? def : { html: def };
+    },
     Component: class Component {
 
       constructor() {
@@ -154,11 +155,11 @@
 
   (function() {
     var shorthand = function(props) {
-      if (!props || typeof props === "number" || typeof props === "string" || Array.isArray(props) || props.node) {
-        props = { node: this, html: props };
-      } else {
-        props.node = this;
+      props = luri.normalizeDefinition(props);
+      if (props.node) {
+        props = { html: props };
       }
+      props.node = this;
 
       return props;
     };
