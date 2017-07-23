@@ -1,0 +1,8 @@
+/examples/
+/utils/
+/nbproject/
+/node_modules/
+/test/
+.gitignore
+.travis.yml
+README.md

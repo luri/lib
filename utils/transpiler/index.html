@@ -1,0 +1,57 @@
+<!doctype html>
+<meta charset="utf-8"/>
+<style>
+html, body { padding: 0; margin: 0; display: flex; flex-flow: column; height: 100%; }
+body > textarea { flex: 1; }
+</style>
+<textarea id="input" placeholde="Put HTML here"></textarea>
+<button style="width:100%;padding:25px 0;" onclick="transpile(this.previousElementSibling.value)">Transpile</button>
+<script>
+var parser = new DOMParser();
+var output = luri => document.getElementById("input").value = luri;
+
+function transpile(html) {
+  var doc = parser.parseFromString(html, "text/html");
+  output(JSON.stringify(transpileElement(doc.body.firstChild), null, 2));
+}
+
+function transpileElement(element) {
+  if (element.nodeName === "#text") {
+    return element.textContent.trim() ? element.textContent : false;
+  } else if (element.nodeName === "#comment") {
+    return false;
+  }
+
+  let attributes = {};
+
+  if (element.nodeName !== "DIV") {
+    attributes.node = element.nodeName;
+  }
+
+  if (element.attributes) {
+    let l = element.attributes.length;
+    while(l--) {
+      let a = element.attributes[l];
+      attributes[a.name] = a.value;
+    }
+  }
+
+  if (element.childNodes.length) {
+    if (element.childNodes.length === 1) {
+      attributes["html"] = transpileElement(element.childNodes[0]);
+    } else {
+      let elements = [];
+      let l = element.childNodes.length;
+      while(l--) {
+        let definition = transpileElement(element.childNodes[l]);
+        if (definition) {
+          elements.push(definition);
+        }
+      }
+      attributes["html"] = elements.reverse();
+    }
+  }
+
+  return attributes;
+}
+</script>
