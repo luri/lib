@@ -5,4 +5,5 @@
 /test/
 .gitignore
 .travis.yml
+_config.yml
 README.md
