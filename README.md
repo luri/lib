@@ -47,7 +47,7 @@ There are helper functions for every standard HTML tag that modify a definition,
 
     // Or using helpers
     let { H1, BUTTON } = luri;
-    
+
     let element = luri.construct([
       H1("It worked!"),
       BUTTON({ html: "Click me!", onclick: event => alert("Woohoo!") })
@@ -57,3 +57,9 @@ There are helper functions for every standard HTML tag that modify a definition,
     document.body.appendChild(element);
 
 A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/1/). Browse `./examples` for more demos.
+
+## Utility
+
+You will find a transpiler in `./utils/transpiler/index.html` that you can use to convert an HTML structure into a definition. The only requirement is that the HTML string you provide must have only one root element, other elements will simply be ignored.
+
+You can access the transpiler [here](https://manix.github.io/luri/utils/transpiler/), thanks to github pages.

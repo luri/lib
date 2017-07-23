@@ -4,7 +4,7 @@
 html, body { padding: 0; margin: 0; display: flex; flex-flow: column; height: 100%; }
 body > textarea { flex: 1; }
 </style>
-<textarea id="input" placeholde="Put HTML here"></textarea>
+<textarea id="input" placeholder="Put HTML here and hit Transpile below."></textarea>
 <button style="width:100%;padding:25px 0;" onclick="transpile(this.previousElementSibling.value)">Transpile</button>
 <script>
 var parser = new DOMParser();
