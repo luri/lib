@@ -86,6 +86,24 @@ describe("Constructing", function() {
     assert.notEqual(element, component.ref, "New and old must differ");
     assert.equal(element.nodeName, component.ref.nodeName, "Node names of new and old");
   });
+
+  it("From Constructed Component", function() {
+    let component = new MyComponent();
+    let element = component.construct();
+
+    assert.equal(element, luri.construct(component));
+  })
+
+  it("From empty html", function() {
+    assert.equal(luri.construct({ html: null }).children.length, 0);
+  });
+
+  it("Reconstruct non-constructed component", function() {
+    assert.throws(function() {
+      let component = new MyComponent();
+      component.reconstruct();
+    }, "Can not reconstruct");
+  });
 });
 
 describe("Helpers", function() {
@@ -108,14 +126,39 @@ describe("Helpers", function() {
 
 });
 
+describe("Component", function() {
+
+  it("Cut", function() {
+    let component = new MyComponent();
+    component.cutprop = 5;
+
+    assert.equal(component.cut("cutprop"), 5);
+    assert.equal(component.cutprop, undefined);
+  });
+
+  it("Props", function() {
+    let component = new luri.Component();
+    let definition = component.props();
+
+    assert(typeof definition === "object" && Object.keys(definition).length === 0);
+  });
+});
+
 describe("Events", function() {
 
   it("Listeners", function() {
     let component = new MyComponent();
     let listeners = component.getEventListeners("test");
 
-    assert.equal(listeners.length, 1, "Must have 1 listener"),
-      assert.equal(typeof listeners[0], "function", "Listener must be a function");
+    assert.equal(listeners.length, 1, "Must have 1 listener");
+    assert.equal(typeof listeners[0], "function", "Listener must be a function");
+
+    let listener = listeners[0];
+    component.off("test", listener);
+    assert.equal(component.getEventListeners("test").length, 0, "Must not have listeners");
+
+    // rebind listener
+    component.on("test", listener);
   });
 
   it("Emission", function() {
@@ -148,17 +191,29 @@ describe("DOM", function() {
   });
 
   it("Dispatch", function() {
+    // 1 component mounted already
     let newClass = "special-class";
     luri.emit("change", newClass);
 
+    // 2 component
     let component = new MyComponent();
     document.body.appendChild(component.construct());
 
+    // 3 component
+    // test if luri is missing on a component element.
+    let brokenComponent = new MyComponent();
+    let brokenElement = brokenComponent.construct();
+    document.body.appendChild(brokenElement);
+    delete(brokenElement.luri);
+
     let [emitResult] = luri.emit("test", []);
-    assert.equal(emitResult.length, 2, "Both components on the document must react to emit");
+    assert.equal(emitResult.length, 2, "2 components on the document must react to emit");
 
     let [dispatchResult] = luri.dispatchToClass(newClass, "test", []);
     assert.equal(dispatchResult.length, 1, "Only modified component should react to this dispatch");
+
+    // remove broken component
+    document.body.removeChild(brokenElement);
   });
 
   it("Reconstruct", function() {
@@ -170,4 +225,12 @@ describe("DOM", function() {
     assert(document.body.firstElementChild.luri.isMounted(), "Component should be mounted");
     assert.strictEqual(new MyComponent().isMounted(), false, "Component should not be mounted");
   });
-})
+});
+
+describe("Other", function() {
+
+  // This is only made to reach 100% coverage
+  it("Export", function() {
+    luri.export(false);
+  });
+});

@@ -42,14 +42,12 @@
           }
         }
 
-        if (html) {
-          if (Array.isArray(html)) {
-            for (var i = 0, l = html.length; i < l; i++) {
-              element.appendChild(this.construct(html[i]));
-            }
-          } else {
-            element.appendChild(this.construct(html));
+        if (Array.isArray(html)) {
+          for (var i = 0, l = html.length; i < l; i++) {
+            element.appendChild(this.construct(html[i]));
           }
+        } else {
+          element.appendChild(this.construct(html));
         }
 
         if (ref) {
@@ -150,6 +148,13 @@
       }
 
       return data;
+    },
+    export: function(asModule = true) {
+      if (asModule && typeof module !== 'undefined' && module.exports) {
+        module.exports = luri;
+      } else {
+        root.luri = luri;
+      }
     }
   };
 
@@ -178,13 +183,6 @@
     "TRACK", "U", "UL", "VAR", "VIDEO", "WBR"].forEach(tag => luri[tag] = shorthand.bind(tag));
   })();
 
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = luri;
-    }
-    exports.luri = luri;
-  } else {
-    root.luri = luri;
-  }
+  luri.export();
 
 })(this);
