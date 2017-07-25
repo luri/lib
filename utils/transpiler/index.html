@@ -17,7 +17,8 @@ function transpile(html) {
 
 function transpileElement(element) {
   if (element.nodeName === "#text") {
-    return element.textContent.trim() ? element.textContent : false;
+    let text = element.textContent.trim();
+    return text ? text : false;
   } else if (element.nodeName === "#comment") {
     return false;
   }

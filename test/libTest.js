@@ -120,6 +120,10 @@ describe("Helpers", function() {
     assert.deepEqual(luri.SPAN({ class: "test" }), { node: "SPAN", class: "test" });
   });
 
+  it("From array", function() {
+    assert.deepEqual(luri.SPAN(["dgd", "brat"]), { node: "SPAN", html: ["dgd", "brat"] });
+  });
+
   it("Nested", function() {
     assert.deepEqual(luri.SPAN(luri.SPAN("test")), { node: "SPAN", html: { node: "SPAN", html: "test" } });
   });

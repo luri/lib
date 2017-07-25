@@ -58,7 +58,7 @@
       }
     })(),
     normalizeDefinition(def) {
-      return typeof def === "object" ? def : { html: def };
+      return typeof def === "object" && !Array.isArray(def) ? def : { html: def };
     },
     Component: class Component {
 
