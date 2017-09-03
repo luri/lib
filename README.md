@@ -2,10 +2,10 @@
 
 A simple JavaScript library for creating HTML UI, inspired by ReactJS and created for fun, and science, of course.
 
-[![Build](https://img.shields.io/travis/manix/luri.svg)](https://travis-ci.org/manix/luri)
-[![Coverage](https://coveralls.io/repos/github/manix/luri/badge.svg)](https://coveralls.io/github/manix/luri)
+[![Build](https://img.shields.io/travis/luri/lib.svg)](https://travis-ci.org/luri/lib)
+[![Coverage](https://coveralls.io/repos/github/luri/lib/badge.svg)](https://coveralls.io/github/luri/lib)
 [![Version](https://img.shields.io/npm/v/luri.svg)](https://www.npmjs.com/package/luri)
-[![Dependencies](https://img.shields.io/david/manix/luri.svg)](https://david-dm.org/manix/luri)
+[![Dependencies](https://img.shields.io/david/luri/lib.svg)](https://david-dm.org/luri/lib)
 
 ---
 
