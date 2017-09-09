@@ -60,6 +60,29 @@
     normalizeDefinition(def) {
       return typeof def === "object" && !Array.isArray(def) ? def : { html: def };
     },
+    overrideEventHandler(def, event, listener, before = false) {
+      def = luri.normalizeDefinition(def);
+
+      if (def instanceof luri.Component) {
+        def = def.construct();
+      }
+
+      if (def[event]) {
+        let current = def[event];
+
+        def[event] = function(e) {
+          if (before) {
+            listener.call(this, e);
+            current.call(this, e);
+          } else {
+            current.call(this, e);
+            listener.call(this, e);
+          }
+        }
+      } else {
+        def[event] = listener;
+      }
+    },
     Component: class Component {
 
       constructor() {
