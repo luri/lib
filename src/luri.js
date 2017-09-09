@@ -63,14 +63,12 @@
     overrideEventHandler(def, event, listener, before = false) {
       def = luri.normalizeDefinition(def);
 
-      if (def instanceof luri.Component) {
-        def = def.construct();
-      }
+      var target = def instanceof luri.Component ? def.construct() : def;
 
-      if (def[event]) {
-        let current = def[event];
+      if (target[event]) {
+        let current = target[event];
 
-        def[event] = function(e) {
+        target[event] = function(e) {
           if (before) {
             listener.call(this, e);
             current.call(this, e);
@@ -80,7 +78,7 @@
           }
         }
       } else {
-        def[event] = listener;
+        target[event] = listener;
       }
 
       return def;
