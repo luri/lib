@@ -237,4 +237,35 @@ describe("Other", function() {
   it("Export", function() {
     luri.export(false);
   });
+
+  it("Override def event handler", function() {
+    let first, second,
+      runFirst = function() {
+        first = true;
+      },
+      runSecond = function() {
+        assert(first, "First function must be executed before second");
+        second = true;
+      },
+      runThird = function() {
+        assert(first && second, "First and second functions must have ran");
+      };
+
+    function test(def) {
+      first = false;
+      second = false;
+      luri.overrideEventHandler(def, "onsubmit", runSecond);
+      luri.overrideEventHandler(def, "onsubmit", runFirst, true);
+      luri.overrideEventHandler(def, "onsubmit", runThird);
+
+      if (def instanceof luri.Component) {
+        def.ref.onsubmit();
+      } else {
+        def.onsubmit();
+      }
+    }
+
+    test({ node: "form" });
+    test(new luri.Component());
+  });
 });
