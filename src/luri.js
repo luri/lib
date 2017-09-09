@@ -82,6 +82,8 @@
       } else {
         def[event] = listener;
       }
+
+      return def;
     },
     Component: class Component {
 
