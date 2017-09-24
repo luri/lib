@@ -16,7 +16,7 @@
             return input.ref;
           }
           props = this.normalizeDefinition(input.props());
-          props.ref = luri.Component.prototype.bind;
+          props.ref = input.bind;
         } else {
           props = this.normalizeDefinition(input);
         }
