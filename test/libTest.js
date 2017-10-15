@@ -146,6 +146,20 @@ describe("Component", function() {
 
     assert(typeof definition === "object" && Object.keys(definition).length === 0);
   });
+
+  it("Ninja", function() {
+    class CustomComponent extends luri.Component {
+      ninja() {
+        return true;
+      }
+    }
+
+    let component = new luri.Component();
+    let ninja = new CustomComponent();
+
+    assert.equal(luri.construct(ninja).classList.contains(luri.class), false);
+    assert.equal(luri.construct(component).classList.contains(luri.class), true);
+  });
 });
 
 describe("Events", function() {

@@ -92,8 +92,15 @@
 
       bind(element) {
         this.ref = element;
-        element.luri = this
-        element.classList.add(luri.class);
+        element.luri = this;
+
+        if (!this.ninja()) {
+          element.classList.add(luri.class);
+        }
+      }
+
+      ninja() {
+        return false;
       }
 
       construct() {
