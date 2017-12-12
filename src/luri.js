@@ -133,15 +133,14 @@
       }
 
       getEventListeners(event) {
-        if (!this._li[event]) {
-          this._li[event] = [];
-        }
-
-        return this._li[event];
+        return this._li[event] || [];
       }
 
-      on(event, listener) {
-        this.getEventListeners(event).push(listener);
+      on(event, listener, priority = 10000) {
+        let listeners = this.getEventListeners(event)
+        listeners.push(listener);
+
+        this._li[event] = listeners;
       }
 
       off(event, listener) {
