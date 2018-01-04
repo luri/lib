@@ -59,6 +59,8 @@ There are helper functions for every standard HTML tag that modify a definition,
 
 A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/1/). Browse `./examples` for more demos.
 
+You can also check out [manix.info](https://manix.info) where you will find a fully functional single page app built on top of luri. The source code is also on [github](https://github.com/manix/portfolio).
+
 ## Utility
 
 You will find a transpiler in `./utils/transpiler/index.html` that you can use to convert an HTML structure into a definition. The only requirement is that the HTML string you provide must have only one root element, other elements will simply be ignored.
