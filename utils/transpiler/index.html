@@ -11,8 +11,8 @@ var parser = new DOMParser();
 var output = luri => document.getElementById("input").value = luri;
 
 function transpile(html) {
-  var doc = parser.parseFromString(html, "text/html");
-  output(JSON.stringify(transpileElement(doc.body.firstChild), null, 2));
+  var doc = parser.parseFromString("<div>" + html + "</div>", "text/html");
+  output(JSON.stringify(transpileElement(doc.body.firstChild).html, null, 2));
 }
 
 function transpileElement(element) {
