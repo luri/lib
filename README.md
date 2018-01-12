@@ -63,6 +63,5 @@ You can also check out [manix.info](https://manix.info) where you will find a fu
 
 ## Utility
 
-You will find a transpiler in `./utils/transpiler/index.html` that you can use to convert an HTML structure into a definition. The only requirement is that the HTML string you provide must have only one root element, other elements will simply be ignored.
-
-You can access the transpiler [here](https://luri.github.io/lib/utils/transpiler/), thanks to github pages.
+You will find a transpiler in `./utils/transpiler/index.html` that you can use to convert an HTML string into a definition.
+You can also access it [here](https://luri.github.io/lib/utils/transpiler/), thanks to github pages.
