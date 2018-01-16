@@ -160,6 +160,20 @@ describe("Component", function() {
     assert.equal(luri.construct(ninja).classList.contains(luri.class), false);
     assert.equal(luri.construct(component).classList.contains(luri.class), true);
   });
+
+  it("Define Listeners", function() {
+    class CustomComponent extends luri.Component {
+      listeners() {
+        return {
+          listener: carrier => carrier.data = 5
+        }
+      }
+    }
+
+    let component = new CustomComponent();
+
+    console.log(component._li);
+  });
 });
 
 describe("Events", function() {

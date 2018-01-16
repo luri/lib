@@ -88,6 +88,12 @@
       constructor() {
         this._li = {};
         this.ref = null;
+
+        let definedListeners = this.listeners();
+
+        for (let event in definedListeners) {
+          this.on(event, definedListeners[event]);
+        }
       }
 
       bind(element) {
@@ -157,6 +163,10 @@
 
       props() {
         return {};
+      }
+
+      listeners() {
+        return {}
       }
     },
     class: "luri-" + Math.random().toString(36).substring(2, 6),
