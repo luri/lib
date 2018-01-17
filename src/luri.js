@@ -38,6 +38,10 @@
           if (typeof value === "function" && prop.indexOf("on") === 0) {
             element[prop] = value;
           } else {
+            if (prop === "style" && typeof value === "object") {
+              value = Object.entries(value).map(chunk => chunk.join(":")).join(";");
+            }
+
             element.setAttribute(prop, value);
           }
         }

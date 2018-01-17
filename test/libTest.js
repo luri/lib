@@ -34,21 +34,21 @@ class MyComponent extends luri.Component {
 }
 
 
-describe("Constructing", function() {
+describe("Constructing", function () {
 
-  it("From string", function() {
+  it("From string", function () {
     assert.equal(luri.construct("dgd").nodeName, "#text");
   });
 
-  it("From integer", function() {
+  it("From integer", function () {
     let element = luri.construct(5);
 
     assert.equal(element.nodeName, "#text");
     assert.equal(element.textContent, "5");
   })
 
-  it("From object", function() {
-    let listener = function() {};
+  it("From object", function () {
+    let listener = function () { };
     let element = luri.construct({
       node: "button",
       class: "dgd",
@@ -62,7 +62,7 @@ describe("Constructing", function() {
     assert.strictEqual(element.onclick, listener, "onclick");
   });
 
-  it("From Component", function() {
+  it("From Component", function () {
     let component = new MyComponent();
     let element = component.construct();
 
@@ -71,7 +71,7 @@ describe("Constructing", function() {
     assert(element.classList.contains(luri.class), "Must contain luri component class");
   });
 
-  it("Reconstruct Component", function() {
+  it("Reconstruct Component", function () {
     let component = new MyComponent();
 
     assert.throws(component.reconstruct, "Can not reconstruct .+", "Must throw");
@@ -87,52 +87,70 @@ describe("Constructing", function() {
     assert.equal(element.nodeName, component.ref.nodeName, "Node names of new and old");
   });
 
-  it("From Constructed Component", function() {
+  it("From Constructed Component", function () {
     let component = new MyComponent();
     let element = component.construct();
 
     assert.equal(element, luri.construct(component));
   })
 
-  it("From empty html", function() {
+  it("From empty html", function () {
     assert.equal(luri.construct({ html: null }).children.length, 0);
   });
 
-  it("Reconstruct non-constructed component", function() {
-    assert.throws(function() {
+  it("Reconstruct non-constructed component", function () {
+    assert.throws(function () {
       let component = new MyComponent();
       component.reconstruct();
     }, "Can not reconstruct");
   });
+
+  it("Style", function () {
+    let test = function (div) {
+      assert.equal(div.style.color, "black");
+      assert.equal(div.style.fontSize, "16px");
+    }
+
+    test(luri.construct({
+      style: {
+        color: "black",
+        "font-size": "16px"
+      }
+    }));
+
+    test(luri.construct({
+      style: "color: black; font-size: 16px"
+    }));
+  });
 });
 
-describe("Helpers", function() {
+describe("Helpers", function () {
 
-  it("From string", function() {
+  it("From string", function () {
     assert.deepEqual(luri.SPAN("test"), { node: "SPAN", html: "test" });
   });
 
-  it("From integer", function() {
+  it("From integer", function () {
     assert.deepEqual(luri.SPAN(5), { node: "SPAN", html: 5 });
   });
 
-  it("From object", function() {
+  it("From object", function () {
     assert.deepEqual(luri.SPAN({ class: "test" }), { node: "SPAN", class: "test" });
   });
 
-  it("From array", function() {
+  it("From array", function () {
     assert.deepEqual(luri.SPAN(["dgd", "brat"]), { node: "SPAN", html: ["dgd", "brat"] });
   });
 
-  it("Nested", function() {
+  it("Nested", function () {
     assert.deepEqual(luri.SPAN(luri.SPAN("test")), { node: "SPAN", html: { node: "SPAN", html: "test" } });
   });
 
 });
 
-describe("Component", function() {
+describe("Component", function () {
 
-  it("Cut", function() {
+  it("Cut", function () {
     let component = new MyComponent();
     component.cutprop = 5;
 
@@ -140,14 +158,14 @@ describe("Component", function() {
     assert.equal(component.cutprop, undefined);
   });
 
-  it("Props", function() {
+  it("Props", function () {
     let component = new luri.Component();
     let definition = component.props();
 
     assert(typeof definition === "object" && Object.keys(definition).length === 0);
   });
 
-  it("Ninja", function() {
+  it("Ninja", function () {
     class CustomComponent extends luri.Component {
       ninja() {
         return true;
@@ -161,7 +179,7 @@ describe("Component", function() {
     assert.equal(luri.construct(component).classList.contains(luri.class), true);
   });
 
-  it("Define Listeners", function() {
+  it("Define Listeners", function () {
     class CustomComponent extends luri.Component {
       listeners() {
         return {
@@ -171,14 +189,12 @@ describe("Component", function() {
     }
 
     let component = new CustomComponent();
-
-    console.log(component._li);
   });
 });
 
-describe("Events", function() {
+describe("Events", function () {
 
-  it("Listeners", function() {
+  it("Listeners", function () {
     let component = new MyComponent();
     let listeners = component.getEventListeners("test");
 
@@ -193,7 +209,7 @@ describe("Events", function() {
     component.on("test", listener);
   });
 
-  it("Emission", function() {
+  it("Emission", function () {
     let data = [];
     let result = luri.emit("test", data);
 
@@ -203,9 +219,9 @@ describe("Events", function() {
 
 });
 
-describe("DOM", function() {
+describe("DOM", function () {
 
-  it("Append", function() {
+  it("Append", function () {
     let component = new MyComponent();
 
     document.body.appendChild(component.construct());
@@ -214,7 +230,7 @@ describe("DOM", function() {
     assert.equal(document.body.firstElementChild, component.ref, "Child must be our component's element");
   });
 
-  it("Events", function() {
+  it("Events", function () {
     // component already part of the document
 
     let [[mustBeTrue]] = luri.emit("test", []);
@@ -222,7 +238,7 @@ describe("DOM", function() {
     assert.strictEqual(mustBeTrue, true, "Component must push boolean value");
   });
 
-  it("Dispatch", function() {
+  it("Dispatch", function () {
     // 1 component mounted already
     let newClass = "special-class";
     luri.emit("change", newClass);
@@ -236,7 +252,7 @@ describe("DOM", function() {
     let brokenComponent = new MyComponent();
     let brokenElement = brokenComponent.construct();
     document.body.appendChild(brokenElement);
-    delete(brokenElement.luri);
+    delete (brokenElement.luri);
 
     let [emitResult] = luri.emit("test", []);
     assert.equal(emitResult.length, 2, "2 components on the document must react to emit");
@@ -248,34 +264,34 @@ describe("DOM", function() {
     document.body.removeChild(brokenElement);
   });
 
-  it("Reconstruct", function() {
+  it("Reconstruct", function () {
     // first component was reconstructed in "change" event
     assert.equal(document.body.children.length, 2, "Must have 2 children at this point");
   });
 
-  it("Mount", function() {
+  it("Mount", function () {
     assert(document.body.firstElementChild.luri.isMounted(), "Component should be mounted");
     assert.strictEqual(new MyComponent().isMounted(), false, "Component should not be mounted");
   });
 });
 
-describe("Other", function() {
+describe("Other", function () {
 
   // This is only made to reach 100% coverage
-  it("Export", function() {
+  it("Export", function () {
     luri.export(false);
   });
 
-  it("Override def event handler", function() {
+  it("Override def event handler", function () {
     let first, second,
-      runFirst = function() {
+      runFirst = function () {
         first = true;
       },
-      runSecond = function() {
+      runSecond = function () {
         assert(first, "First function must be executed before second");
         second = true;
       },
-      runThird = function() {
+      runThird = function () {
         assert(first && second, "First and second functions must have ran");
       };
 
