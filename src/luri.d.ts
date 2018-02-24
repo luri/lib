@@ -9,7 +9,7 @@ export function construct(input: any): HTMLElement | Text;
 
 export function normalizeDefinition(def: definition): definition;
 
-export function overrideEventHandler(def: definition, event: string, listener: () => void, before: boolean): definition;
+export function overrideEventHandler(def: definition, event: string, listener: (...params: any[]) => void, before: boolean): definition;
 
 export class Component {
   bind(element: HTMLElement): void;
@@ -17,9 +17,9 @@ export class Component {
   construct(): HTMLElement;
   reconstruct(): HTMLElement;
   cut(property: string): any;
-  getEventListeners(event: string): (() => void)[];
-  on(event: string, listener: () => void): void;
-  off(event: string, listener: () => void): void;
+  getEventListeners(event: string): ((...params: any[]) => void)[];
+  on(event: string, listener: (...params: any[]) => void): void;
+  off(event: string, listener: (...params: any[]) => void): void;
   removeEvenetListener(event: string, listener: () => void): void;
   isMounted(): boolean;
   props(): definition;

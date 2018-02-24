@@ -1,6 +1,6 @@
 {
   "name": "luri",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "A little javascript UI building library made for fun and science.",
   "main": "src/luri.js",
   "types": "src/luri.d.ts",
