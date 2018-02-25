@@ -5,11 +5,11 @@ interface Map {
 type simpledefinition = null | string | number | Map | Component;
 type definition = simpledefinition | simpledefinition[];
 
-export function construct(input: any): HTMLElement | Text;
+export function construct(input: definition): HTMLElement | Text;
 
 export function normalizeDefinition(def: definition): definition;
 
-export function overrideEventHandler(def: definition, event: string, listener: (...params: any[]) => void, before: boolean): definition;
+export function overrideEventHandler(def: definition, event: string, listener: (...params: any[]) => void, before?: boolean): definition;
 
 export class Component {
   public ref: HTMLElement;

@@ -3,6 +3,8 @@
 /nbproject/
 /node_modules/
 /test/
+/.nyc_output/
+/coverage/
 .gitignore
 .travis.yml
 .coveralls.yml
