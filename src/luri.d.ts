@@ -5,6 +5,10 @@ interface Map {
 type simpledefinition = null | string | number | Map | Component;
 type definition = simpledefinition | simpledefinition[];
 
+interface LuriHTMLElement extends HTMLElement {
+  luri: Component
+}
+
 export function construct(input: definition): HTMLElement | Text;
 
 export function normalizeDefinition(def: definition): definition;
@@ -12,11 +16,11 @@ export function normalizeDefinition(def: definition): definition;
 export function overrideEventHandler(def: definition, event: string, listener: (...params: any[]) => void, before?: boolean): definition;
 
 export class Component {
-  public ref: HTMLElement;
-  bind(element: HTMLElement): void;
+  public ref: LuriHTMLElement;
+  bind(element: LuriHTMLElement): void;
   ninja(): boolean;
-  construct(): HTMLElement;
-  reconstruct(): HTMLElement;
+  construct(): LuriHTMLElement;
+  reconstruct(): LuriHTMLElement;
   cut(property: string): any;
   getEventListeners(event: string): ((...params: any[]) => void)[];
   on(event: string, listener: (...params: any[]) => void): void;
