@@ -2,7 +2,7 @@ interface Map {
   [key: string]: any
 }
 
-type simpledefinition = null | string | number | Map | Component;
+type simpledefinition = null | string | number | Map | Component | Element;
 type definition = simpledefinition | simpledefinition[];
 
 interface LuriHTMLElement extends HTMLElement {

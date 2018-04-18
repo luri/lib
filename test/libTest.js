@@ -3,6 +3,7 @@ const luri = require("../src/luri");
 const JSDOM = require("jsdom").JSDOM;
 const dom = new JSDOM(`<!DOCTYPE html>`);
 global.document = dom.window.document;
+global.Element = dom.window.Element;
 
 class MyComponent extends luri.Component {
 
@@ -92,7 +93,13 @@ describe("Constructing", function () {
     let element = component.construct();
 
     assert.equal(element, luri.construct(component));
-  })
+  });
+
+  it("From Element", function () {
+    let element = document.createElement("div");
+    
+    assert.deepEqual(element, luri.construct(element));
+  });
 
   it("From empty html", function () {
     assert.equal(luri.construct({ html: null }).children.length, 0);

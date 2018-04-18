@@ -17,6 +17,8 @@
           }
           props = this.normalizeDefinition(input.props());
           props.ref = input.bind;
+        } else if (input instanceof Element) {
+          return input;
         } else {
           props = this.normalizeDefinition(input);
         }
