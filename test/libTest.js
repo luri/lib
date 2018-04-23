@@ -26,9 +26,14 @@ class MyComponent extends luri.Component {
   props() {
     return {
       class: this.class,
-      html: [
-        { node: "span", html: "1st" },
-        { node: "span", html: "2nd" }
+      html: [{
+          node: "span",
+          html: "1st"
+        },
+        {
+          node: "span",
+          html: "2nd"
+        }
       ]
     };
   }
@@ -49,7 +54,7 @@ describe("Constructing", function () {
   })
 
   it("From object", function () {
-    let listener = function () { };
+    let listener = function () {};
     let element = luri.construct({
       node: "button",
       class: "dgd",
@@ -97,12 +102,49 @@ describe("Constructing", function () {
 
   it("From Element", function () {
     let element = document.createElement("div");
-    
+
     assert.deepEqual(element, luri.construct(element));
   });
 
+  it("From Promise", function (done) {
+    let promise = new Promise(resolve => {
+      setTimeout(() => resolve({
+        html: "As promised!"
+      }), 100);
+    });
+
+    let element = luri.construct({
+      html: luri.promise({
+        class: "loading",
+        ref: e => assert(e.classList.contains("loading"))
+      }, promise)
+    });
+
+    let instant = luri.construct({
+      html: Promise.resolve({
+        html: "instant"
+      })
+    });
+
+    setTimeout(() => {
+      assert.equal(element.children[0].innerHTML, "As promised!");
+      assert.equal(instant.children[0].innerHTML, "instant");
+      done();
+    }, 200);
+
+  });
+
+  it("From NULL", function () {
+    let element = luri.construct(null);
+
+    assert.equal(element.nodeName, "DIV");
+    assert.equal(element.innerHTML, "");
+  });
+
   it("From empty html", function () {
-    assert.equal(luri.construct({ html: null }).children.length, 0);
+    assert.equal(luri.construct({
+      html: null
+    }).children.length, 0);
   });
 
   it("Reconstruct non-constructed component", function () {
@@ -134,23 +176,43 @@ describe("Constructing", function () {
 describe("Helpers", function () {
 
   it("From string", function () {
-    assert.deepEqual(luri.SPAN("test"), { node: "SPAN", html: "test" });
+    assert.deepEqual(luri.SPAN("test"), {
+      node: "SPAN",
+      html: "test"
+    });
   });
 
   it("From integer", function () {
-    assert.deepEqual(luri.SPAN(5), { node: "SPAN", html: 5 });
+    assert.deepEqual(luri.SPAN(5), {
+      node: "SPAN",
+      html: 5
+    });
   });
 
   it("From object", function () {
-    assert.deepEqual(luri.SPAN({ class: "test" }), { node: "SPAN", class: "test" });
+    assert.deepEqual(luri.SPAN({
+      class: "test"
+    }), {
+      node: "SPAN",
+      class: "test"
+    });
   });
 
   it("From array", function () {
-    assert.deepEqual(luri.SPAN(["dgd", "brat"]), { node: "SPAN", html: ["dgd", "brat"] });
+    assert.deepEqual(luri.SPAN(["dgd", "brat"]), {
+      node: "SPAN",
+      html: ["dgd", "brat"]
+    });
   });
 
   it("Nested", function () {
-    assert.deepEqual(luri.SPAN(luri.SPAN("test")), { node: "SPAN", html: { node: "SPAN", html: "test" } });
+    assert.deepEqual(luri.SPAN(luri.SPAN("test")), {
+      node: "SPAN",
+      html: {
+        node: "SPAN",
+        html: "test"
+      }
+    });
   });
 
 });
@@ -240,7 +302,9 @@ describe("DOM", function () {
   it("Events", function () {
     // component already part of the document
 
-    let [[mustBeTrue]] = luri.emit("test", []);
+    let [
+      [mustBeTrue]
+    ] = luri.emit("test", []);
 
     assert.strictEqual(mustBeTrue, true, "Component must push boolean value");
   });
@@ -259,7 +323,7 @@ describe("DOM", function () {
     let brokenComponent = new MyComponent();
     let brokenElement = brokenComponent.construct();
     document.body.appendChild(brokenElement);
-    delete (brokenElement.luri);
+    delete(brokenElement.luri);
 
     let [emitResult] = luri.emit("test", []);
     assert.equal(emitResult.length, 2, "2 components on the document must react to emit");
@@ -316,7 +380,9 @@ describe("Other", function () {
       }
     }
 
-    test({ node: "form" });
+    test({
+      node: "form"
+    });
     test(new luri.Component());
   });
 });

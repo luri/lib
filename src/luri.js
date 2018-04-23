@@ -1,16 +1,16 @@
 "use strict";
 
-(function(root) {
+(function (root) {
 
   var luri = {
-    construct: (function() {
+    construct: (function () {
       var special_props = ["node", "html", "ref"];
 
-      return function(input) {
+      return function (input) {
         var props;
 
-        if (typeof input === "string" || typeof input === "number") {
-          return document.createTextNode(input);
+        if (input && input.constructor === Object) {
+          props = this.normalizeDefinition(input);
         } else if (input instanceof this.Component) {
           if (input.ref) {
             return input.ref;
@@ -19,6 +19,10 @@
           props.ref = input.bind;
         } else if (input instanceof Element) {
           return input;
+        } else if (input instanceof Promise) {
+          props = this.promise({}, input);
+        } else if (typeof input === "string" || typeof input === "number") {
+          return document.createTextNode(input);
         } else {
           props = this.normalizeDefinition(input);
         }
@@ -26,7 +30,7 @@
         props = Object.assign({}, props);
 
         var element = document.createElement(props.node || "div");
-        var html = props.html || [];
+        var html = props.html;
         var ref = props.ref;
 
         var i = special_props.length;
@@ -48,12 +52,14 @@
           }
         }
 
-        if (Array.isArray(html)) {
-          for (var i = 0, l = html.length; i < l; i++) {
-            element.appendChild(this.construct(html[i]));
+        if (html) {
+          if (Array.isArray(html)) {
+            for (var i = 0, l = html.length; i < l; i++) {
+              element.appendChild(this.construct(html[i]));
+            }
+          } else {
+            element.appendChild(this.construct(html));
           }
-        } else {
-          element.appendChild(this.construct(html));
         }
 
         if (ref) {
@@ -64,7 +70,9 @@
       }
     })(),
     normalizeDefinition(def) {
-      return typeof def === "object" && !Array.isArray(def) ? def : { html: def };
+      return typeof def === "object" && !Array.isArray(def) ? def : {
+        html: def
+      };
     },
     overrideEventHandler(def, event, listener, before = false) {
       def = luri.normalizeDefinition(def);
@@ -74,7 +82,7 @@
       if (target[event]) {
         let current = target[event];
 
-        target[event] = function(e) {
+        target[event] = function (e) {
           if (before) {
             listener.call(this, e);
             current.call(this, e);
@@ -176,7 +184,7 @@
       }
     },
     class: "luri-" + Math.random().toString(36).substring(2, 6),
-    emit: function(event, ...data) {
+    emit: function (event, ...data) {
       return luri.dispatchTo(document.getElementsByClassName(luri.class), event, ...data);
     },
     dispatchToClass(className, event, ...data) {
@@ -194,20 +202,38 @@
 
       return data;
     },
-    export: function(asModule = true) {
+    export: function (asModule = true) {
       if (asModule && typeof module !== 'undefined' && module.exports) {
         module.exports = luri;
       } else {
         root.luri = luri;
       }
+    },
+    promise: function (def, promise) {
+      ((ref) => {
+        def.ref = e => {
+          if (ref) {
+            ref(e);
+          }
+
+          promise.then(def => {
+            e.parentNode.insertBefore(this.construct(def), e);
+            e.parentNode.removeChild(e);
+          })
+        }
+      })(def.ref);
+
+      return def;
     }
   };
 
-  (function() {
-    var shorthand = function(props) {
+  (function () {
+    var shorthand = function (props) {
       props = luri.normalizeDefinition(props);
       if (props.node) {
-        props = { html: props };
+        props = {
+          html: props
+        };
       }
       props.node = this;
 
@@ -215,17 +241,18 @@
     };
 
     ["A", "ABBR", "ADDRESS", "AREA", "ARTICLE", "ASIDE", "AUDIO", "B", "BASE", "BDI", "BDO",
-    "BLOCKQUOTE", "BODY", "BR", "BUTTON", "CANVAS", "CAPTION", "CITE", "CODE", "COL",
-    "COLGROUP", "DATA", "DATALIST", "DD", "DEL", "DETAILS", "DFN", "DIALOG", "DIV", "DL",
-    "DT", "EM", "EMBED", "FIELDSET", "FIGCAPTION", "FIGURE", "FOOTER", "FORM", "H1", "H2",
-    "H3", "H4", "H5", "H6", "HEAD", "HEADER", "HGROUP", "HR", "HTML", "I", "IFRAME", "IMG",
-    "INPUT", "INS", "KBD", "KEYGEN", "LABEL", "LEGEND", "LI", "LINK", "MAIN", "MAP", "MARK",
-    "MATH", "MENU", "MENUITEM", "META", "METER", "NAV", "NOSCRIPT", "OBJECT", "OL",
-    "OPTGROUP", "OPTION", "OUTPUT", "P", "PARAM", "PICTURE", "PRE", "PROGRESS", "Q",
-    "RB", "RP", "RT", "RTC", "RUBY", "S", "SAMP", "SCRIPT", "SECTION", "SELECT", "SLOT",
-    "SMALL", "SOURCE", "SPAN", "STRONG", "STYLE", "SUB", "SUMMARY", "SUP", "SVG", "TABLE",
-    "TBODY", "TD", "TEMPLATE", "TEXTAREA", "TFOOT", "TH", "THEAD", "TIME", "TITLE", "TR",
-    "TRACK", "U", "UL", "VAR", "VIDEO", "WBR"].forEach(tag => luri[tag] = shorthand.bind(tag));
+      "BLOCKQUOTE", "BODY", "BR", "BUTTON", "CANVAS", "CAPTION", "CITE", "CODE", "COL",
+      "COLGROUP", "DATA", "DATALIST", "DD", "DEL", "DETAILS", "DFN", "DIALOG", "DIV", "DL",
+      "DT", "EM", "EMBED", "FIELDSET", "FIGCAPTION", "FIGURE", "FOOTER", "FORM", "H1", "H2",
+      "H3", "H4", "H5", "H6", "HEAD", "HEADER", "HGROUP", "HR", "HTML", "I", "IFRAME", "IMG",
+      "INPUT", "INS", "KBD", "KEYGEN", "LABEL", "LEGEND", "LI", "LINK", "MAIN", "MAP", "MARK",
+      "MATH", "MENU", "MENUITEM", "META", "METER", "NAV", "NOSCRIPT", "OBJECT", "OL",
+      "OPTGROUP", "OPTION", "OUTPUT", "P", "PARAM", "PICTURE", "PRE", "PROGRESS", "Q",
+      "RB", "RP", "RT", "RTC", "RUBY", "S", "SAMP", "SCRIPT", "SECTION", "SELECT", "SLOT",
+      "SMALL", "SOURCE", "SPAN", "STRONG", "STYLE", "SUB", "SUMMARY", "SUP", "SVG", "TABLE",
+      "TBODY", "TD", "TEMPLATE", "TEXTAREA", "TFOOT", "TH", "THEAD", "TIME", "TITLE", "TR",
+      "TRACK", "U", "UL", "VAR", "VIDEO", "WBR"
+    ].forEach(tag => luri[tag] = shorthand.bind(tag));
   })();
 
   luri.export();

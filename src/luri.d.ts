@@ -2,7 +2,7 @@ interface Map {
   [key: string]: any
 }
 
-type simpledefinition = null | string | number | Map | Component | Element;
+type simpledefinition = null | string | number | Map | Component | Element | Promise<definition>;
 type definition = simpledefinition | simpledefinition[];
 
 interface LuriHTMLElement extends HTMLElement {
@@ -35,6 +35,8 @@ export function emit(event: string, ...data: any[]): any[];
 export function dispatchToClass(className: string, event: string, ...data: any[]): any[];
 
 export function dispatchTo(collection: HTMLElement[] | HTMLCollection | NodeList, event: string, ...data: any[]): any[];
+
+export function promise(def: definition, promise: Promise<definition>): definition;
 
 export function A(def: definition): definition;
 export function ABBR(def: definition): definition;
