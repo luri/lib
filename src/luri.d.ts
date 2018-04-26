@@ -2,8 +2,10 @@ interface Map {
   [key: string]: any
 }
 
-type simpledefinition = null | string | number | Map | Component | Element | Promise<definition>;
-type definition = simpledefinition | simpledefinition[];
+type simpledefinition = null | string | number | Map | Component | Element;
+interface simpledefinitionarray extends Array<simpledefinition> { }
+type complexdefinition = simpledefinition | simpledefinitionarray;
+type definition = complexdefinition | Promise<complexdefinition>;
 
 interface LuriHTMLElement extends HTMLElement {
   luri: Component
