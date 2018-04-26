@@ -3,8 +3,7 @@ interface Map {
 }
 
 type simpledefinition = null | string | number | Map | Component | Element;
-interface simpledefinitionarray extends Array<simpledefinition> { }
-type complexdefinition = simpledefinition | simpledefinitionarray;
+type complexdefinition = simpledefinition | simpledefinition[];
 type definition = complexdefinition | Promise<complexdefinition>;
 
 interface LuriHTMLElement extends HTMLElement {
