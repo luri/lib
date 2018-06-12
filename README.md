@@ -57,7 +57,7 @@ There are helper functions for every standard HTML tag that modify a definition,
     // Then
     document.body.appendChild(element);
 
-A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/1/). Browse `./examples` for more demos.
+A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/12/). Browse `./examples` for more demos.
 
 You can also check out [manix.info](https://manix.info) where you will find a fully functional single page app built on top of luri. The source code is also on [github](https://github.com/manix/portfolio).
 
