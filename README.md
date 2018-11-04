@@ -28,7 +28,7 @@ A definition is a piece of information that can be used by the library to constr
 A component is a class that inherits from `luri.Component`. Every component must implement a `props()` method, which must return a *definition* that will tell `luri` how to construct that particular component. Every component keeps a reference to its constructed HTML element, as well as a reference to the component is kept in the HTML element. Components are useful for code separation, but their real strength is that they can listen globally to emitted events and *react* to each accordingly.
 
 * **Events**  
-An event in the context of the library is nothing different than a regular event,  except it gets broadcasted globally (unless explicitly declared elsewise) in the document to the mounted components.
+An event in the context of the library is nothing different than a regular event,  except it gets broadcasted globally (unless explicitly declared otherwiwse) in the document to the mounted components.
 
 ## Helpers
 
@@ -36,7 +36,9 @@ There are helper functions for every standard HTML tag that modify a definition,
 
 ## Example usage
 
-    // Using object definitions
+- Using object definitions
+
+    ```
     let element = luri.construct([
       {
         node: "h1",
@@ -46,18 +48,24 @@ There are helper functions for every standard HTML tag that modify a definition,
         html: "Click me!",
         onclick: event => alert("Woohoo!")
       }
-    ]);
+    ]);    
+    document.body.appendChild(element);
+    ```
 
-    // Or using helpers
+- Using helpers  
+    ```
     let { H1, BUTTON } = luri;
 
     let element = luri.construct([
       H1("It worked!"),
-      BUTTON({ html: "Click me!", onclick: event => alert("Woohoo!") })
+      BUTTON({ 
+        html: "Click me!", 
+        onclick: event => alert("Woohoo!") 
+      })
     ])
-
-    // Then
+    
     document.body.appendChild(element);
+    ```
 
 A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/12/). Browse `./examples` for more demos. There have been some changes since those examples were added, perhaps they can get updated or may add more if there is interest, but the principle is the same.
 
