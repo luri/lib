@@ -11,9 +11,11 @@ A simple JavaScript library for creating HTML UI, inspired by ReactJS and create
 
 ## Ideology
 
+**General**  
 The idea of a UI rendering library is that a client should be responsible for rendering its own UI and the server should not be aware of the presentation logic, transmitting only essential data.
 
-The goal behind `luri` is to make UI rendering as simple and *lightweight* as possible, and still maintain a good level of flexibility. Additionally it aims to use the DOM as its primary data management tool.
+**luri**  
+The main goal behind `luri` is *simplicity*. It is designed in a way that requires as little learning as possible. If you're familiar with JavaScript and HTML it should literally take you no more than 10 minutes before you can start building. Second but equally as important is the simplicity of the source code. It is ~1.7KB minified and gzipped.
 
 ## Concepts
 
@@ -57,9 +59,9 @@ There are helper functions for every standard HTML tag that modify a definition,
     // Then
     document.body.appendChild(element);
 
-A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/12/). Browse `./examples` for more demos.
+A slightly more complex example using a component can be found [here](https://jsfiddle.net/7a8c8tk0/12/). Browse `./examples` for more demos. There have been some changes since those examples were added, perhaps they can get updated or may add more if there is interest, but the principle is the same.
 
-You can also check out [manix.info](https://manix.info) where you will find a fully functional single page app built on top of luri. The source code is also on [github](https://github.com/manix/portfolio).
+You can check out the [spa-quickstart](https://github.com/luri/spa-quickstart) repository that will get you started with building a single page web app in no time.
 
 ## Utility
 
