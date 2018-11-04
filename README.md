@@ -48,7 +48,8 @@ There are helper functions for every standard HTML tag that modify a definition,
         html: "Click me!",
         onclick: event => alert("Woohoo!")
       }
-    ]);    
+    ]);
+    
     document.body.appendChild(element);
     ```
 
