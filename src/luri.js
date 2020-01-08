@@ -3,28 +3,35 @@
 (function (root) {
 
   var luri = {
+    /**
+     * Made the instance of Promise to be settable,
+     * because sometimes the global Promise does not
+     * match the one used in the program.
+     */
+    PROMISE: Promise,
     construct: (function () {
       var special_props = ["node", "html", "ref"];
 
       return function (input) {
         var props;
 
-        if (input && input.constructor === Object) {
-          props = this.normalizeDefinition(input);
-        } else if (input instanceof this.Component) {
-          if (input.ref) {
-            return input.ref;
-          }
-          props = this.normalizeDefinition(input.props());
-          props.ref = input.bind;
-        } else if (input instanceof Element) {
-          return input;
-        } else if (input instanceof Promise) {
-          props = this.promise({}, input);
-        } else if (typeof input === "string" || typeof input === "number") {
-          return document.createTextNode(input);
-        } else {
-          props = this.normalizeDefinition(input);
+        switch (true) {
+          case input instanceof this.Component:
+            if (input.ref) {
+              return input.ref;
+            }
+            props = this.normalizeDefinition(input.props());
+            props.ref = input.bind;
+            break;
+          case typeof input === "string" || typeof input === "number":
+            return document.createTextNode(input);
+          case input instanceof Element:
+            return input;
+          case input instanceof this.PROMISE:
+            props = this.promise({}, input);
+            break;
+          default:
+            props = this.normalizeDefinition(input);
         }
 
         props = Object.assign({}, props);
@@ -35,7 +42,7 @@
 
         var i = special_props.length;
         while (i--) {
-          delete(props[special_props[i]]);
+          delete (props[special_props[i]]);
         }
 
         for (var prop in props) {
@@ -148,7 +155,7 @@
 
       cut(property) {
         var value = this[property];
-        delete(this[property]);
+        delete (this[property]);
         return value;
       }
 

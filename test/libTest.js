@@ -27,13 +27,13 @@ class MyComponent extends luri.Component {
     return {
       class: this.class,
       html: [{
-          node: "span",
-          html: "1st"
-        },
-        {
-          node: "span",
-          html: "2nd"
-        }
+        node: "span",
+        html: "1st"
+      },
+      {
+        node: "span",
+        html: "2nd"
+      }
       ]
     };
   }
@@ -54,7 +54,7 @@ describe("Constructing", function () {
   })
 
   it("From object", function () {
-    let listener = function () {};
+    let listener = function () { };
     let element = luri.construct({
       node: "button",
       class: "dgd",
@@ -80,7 +80,9 @@ describe("Constructing", function () {
   it("Reconstruct Component", function () {
     let component = new MyComponent();
 
-    assert.throws(component.reconstruct, "Can not reconstruct .+", "Must throw");
+    assert.throws(() => {
+      component.reconstruct();
+    }, /Can not reconstruct .+/, "Must throw");
 
     let element = component.construct();
 
@@ -323,7 +325,7 @@ describe("DOM", function () {
     let brokenComponent = new MyComponent();
     let brokenElement = brokenComponent.construct();
     document.body.appendChild(brokenElement);
-    delete(brokenElement.luri);
+    delete (brokenElement.luri);
 
     let [emitResult] = luri.emit("test", []);
     assert.equal(emitResult.length, 2, "2 components on the document must react to emit");
