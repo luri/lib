@@ -4,7 +4,7 @@
 
   var luri = {
     /**
-     * Made the instance of Promise to be settable,
+     * Made the constructor of Promise to be settable,
      * because sometimes the global Promise does not
      * match the one used in the program.
      */
