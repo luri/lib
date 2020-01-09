@@ -51,8 +51,20 @@
           if (typeof value === "function" && prop.indexOf("on") === 0) {
             element[prop] = value;
           } else {
-            if (prop === "style" && typeof value === "object") {
-              value = Object.entries(value).map(chunk => chunk.join(":")).join(";");
+            switch (prop) {
+              case "style":
+                if (typeof value === "object") {
+                  value = Object.entries(value).map(chunk => chunk.join(":")).join(";");
+                }
+                break;
+              case "data":
+                if (typeof value === "object") {
+                  Object.keys(value).forEach(key => {
+                    element.setAttribute([`data-${key}`], value[key]);
+                  });
+                  continue;
+                }
+                break;
             }
 
             element.setAttribute(prop, value);

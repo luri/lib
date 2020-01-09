@@ -173,6 +173,22 @@ describe("Constructing", function () {
       style: "color: black; font-size: 16px"
     }));
   });
+
+  it("Data", function () {
+    let div = luri.construct({
+      data: {
+        weight: "100kg"
+      }
+    });
+
+    assert.equal(div.dataset.weight, "100kg");
+
+    div = luri.construct({
+      data: "105kg"
+    });
+
+    assert.equal(div.getAttribute("data"), "105kg");
+  });
 });
 
 describe("Helpers", function () {
