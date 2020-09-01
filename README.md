@@ -16,6 +16,8 @@ A simple JavaScript library for creating HTML UI, inspired by ReactJS and create
 3. [API](#API)
 4. [Helpers](#Helpers)
 5. [Examples](#Examples)
+6. [Utility](#Utility)
+7. [Made With](#Made-With)
 
 ---
 
@@ -161,3 +163,13 @@ You can check out the [spa-quickstart](https://github.com/luri/spa-quickstart) r
 
 You will find a transpiler in `./utils/transpiler/index.html` that you can use to convert an HTML string into a definition.
 You can also access it [here](https://luri.github.io/lib/utils/transpiler/), thanks to github pages.
+
+## Made With
+
+Projects made using `luri`.
+
+[<img src="https://gigacharger.net/wp-content/uploads/2018/08/logo-footer.png" width="128px">](https://play.google.com/store/apps/details?id=net.gigacharger.app)
+[<img src="https://servy.manix.info/app/images/logo/logo.png" width="128px">](https://servy.manix.info/app/index.html)
+
+
+
