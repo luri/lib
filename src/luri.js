@@ -12,7 +12,7 @@
     construct: (function () {
       var special_props = ["node", "html", "ref"];
 
-      return function (input) {
+      return function (input, namespace = null) {
         var props;
 
         switch (true) {
@@ -36,7 +36,13 @@
 
         props = Object.assign({}, props);
 
-        var element = document.createElement(props.node || "div");
+        var node = props.node || "div";
+
+        if (node === "svg" || props.xmlns) {
+          namespace = props.xmlns || "http://www.w3.org/2000/svg";
+        }
+
+        var element = namespace ? document.createElementNS(namespace, node) : document.createElement(node);
         var html = props.html;
         var ref = props.ref;
 
@@ -74,10 +80,10 @@
         if (html) {
           if (Array.isArray(html)) {
             for (var i = 0, l = html.length; i < l; i++) {
-              element.appendChild(this.construct(html[i]));
+              element.appendChild(this.construct(html[i], namespace));
             }
           } else {
-            element.appendChild(this.construct(html));
+            element.appendChild(this.construct(html, namespace));
           }
         }
 
