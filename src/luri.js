@@ -249,6 +249,17 @@
       })(def.ref);
 
       return def;
+    },
+    append: function (def, element) {
+      return element.appendChild(this.construct(def));
+    },
+    replace: function (element, def) {
+      let replacement = this.construct(def);
+      element.replaceWith(replacement);
+      return replacement;
+    },
+    insert: function (def, element, before) {
+      return element.insertBefore(this.construct(def), before);
     }
   };
 

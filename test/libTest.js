@@ -189,6 +189,12 @@ describe("Constructing", function () {
 
     assert.equal(div.getAttribute("data"), "105kg");
   });
+
+  it("SVG", function () {
+    assert.equal(luri.construct({
+      node: "svg"
+    }).nodeName.toLowerCase(), "svg");
+  })
 });
 
 describe("Helpers", function () {
@@ -311,10 +317,26 @@ describe("DOM", function () {
   it("Append", function () {
     let component = new MyComponent();
 
-    document.body.appendChild(component.construct());
+    luri.append(component, document.body);
 
     assert.equal(document.body.children.length, 1, "Body must have 1 child at this point");
     assert.equal(document.body.firstElementChild, component.ref, "Child must be our component's element");
+  });
+
+  it("Replace", function () {
+    let node = luri.replace(document.body.firstChild, "DGD");
+
+    assert.equal(document.body.textContent, node.textContent);
+
+    document.body.removeChild(node);
+  });
+
+  it("Insert", function () {
+    let component = new MyComponent();
+
+    let element = luri.insert(component, document.body);
+
+    assert.strictEqual(document.body.firstChild, element);
   });
 
   it("Events", function () {
