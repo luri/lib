@@ -40,7 +40,7 @@ A definition is a piece of information that can be used by the library to constr
 A component is a class that inherits from `luri.Component`. Every component must implement a `props()` method, which must return a *definition* that will tell `luri` how to construct that particular component. Once constructed, there is a bond created between the Component and the HTMLElement. Components are useful for code separation. They can also listen globally to emitted events and *react* to each accordingly.
 
 * **Events**  
-An event in the context of the library is nothing different than a regular event,  except it gets broadcasted globally (unless explicitly declared otherwise) in the document to the mounted components.
+Events in the context of the library are quite different than DOM events. They do not propagate but rather get dispatched to all components (by default) which define listeners and react only to events they care about. It would probably be more accurate to categorize it as a pub-sub rather than event system but meh.
 
 ## API
 
